@@ -7,8 +7,8 @@ on:
     tags:
       - '**'
   pull_request:
-  schedule:
-    - cron:  '0 0 * * *'
+    #  schedule:
+    #    - cron:  '0 0 * * *'
 env:
   IMAGE_NAME: roon
 
@@ -43,7 +43,7 @@ jobs:
         with:
           registry: ghcr.io
           username: ${{ github.repository_owner }}
-          password: ${{ secrets.CR_PAT }}
+          password: ${{ secrets.GITHUB_TOKEN }}
       
       - name: Prep Docker Tags
         id: docker_meta
