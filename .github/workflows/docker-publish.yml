@@ -41,6 +41,7 @@ jobs:
           echo "RUN_BUILD='true'" >> $GITHUB_OUTPUT
 
   docker:
+    needs: check_upstream_roon_vs_release
     #if: ${{ check_upstream_roon_vs_releases.outputs.run_build == 'true' }}
     runs-on: ubuntu-latest
 
