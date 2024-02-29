@@ -39,7 +39,7 @@ jobs:
       run_build: ${{ steps.compare_versions.outputs.RUN_BUILD }}
 
   docker:
-    if: ${{ needs.check_upstream_roon_vs_releases.outputs.RUN_BUILD == 'true' }}
+    if: ${{ needs.check_upstream_roon_vs_releases.outputs.run_build == 'true' }}
     runs-on: ubuntu-latest
 
     steps:
