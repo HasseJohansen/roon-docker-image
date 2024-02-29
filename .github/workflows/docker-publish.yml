@@ -44,76 +44,78 @@ jobs:
           echo "RUN_BUILD='false'" >> $GITHUB_OUTPUT
 
   docker:
-    needs: check_upstream_roon_vs_releases
     if: ${{ needs.check_upstream_roon_vs_releases.outputs.run_build != 'false' }}
+    needs: check_upstream_roon_vs_releases
     runs-on: ubuntu-latest
     outputs:
       RELEASE: ${{ needs.check_upstream_roon_vs_releases.outputs.ROON_RELEASE }}
 
     steps:
-      - uses: actions/checkout@v4.1.1
-       
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v3.0.0
-      
-      - name: Set up Docker Context for Buildx
-        id: buildx-context
-        run: |
-          docker context create builders
-      
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3.1.0
-        with:
-          endpoint: builders
-
-      - name: Login to DockerHub
-        uses: docker/login-action@v3.0.0
-        with:
-          username: hassejohansen
-          password: ${{ secrets.DOCKER_HUB_PAT }}
-
-      - name: Login to ghcr.io
-        uses: docker/login-action@v3 
-        with:
-          registry: ghcr.io
-          username: ${{ github.repository_owner }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-      
-      - name: Prep Docker Tags
-        id: docker_meta
-        uses: docker/metadata-action@v5.5.1
-        with:
-          images: "docker.io/${{ github.repository_owner }}/${{ env.IMAGE_NAME }}, ghcr.io/${{ github.repository_owner }}/${{ env.IMAGE_NAME }}"
-          tags: |
-            type=raw,value=${{ needs.check_upstream_roon_vs_releases.outputs.ROON_RELEASE }}
-            type=ref,event=branch
-            type=ref,event=pr
-            type=ref,event=tag
-            type=edge
-            type=sha,prefix=git-
-            
-
-      - name: Build and push Docker images
-        uses: docker/build-push-action@v5.1.0
-        with:
-          context: .
-          file: ./Dockerfile
-          platforms: linux/amd64
-          push: true
-          tags: ${{ steps.docker_meta.outputs.tags }}
-          labels: ${{ steps.docker_meta.outputs.labels }}
-      
-      - name: Image digest
-        run: echo ${{ steps.docker_build.outputs.digest }}
-
-  create-release:
-    needs: docker
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v4.1.1
-    - uses: ncipollo/release-action@v1.14.0
-      with:
-        allowUpdates: true
-        bodyFile: "release.md"
-        tag: ${{ needs.docker.outputs.RELEASE }}
-        token: ${{ secrets.GITHUB_TOKEN }}
+      - run: |
+          echo ${{ needs.check_upstream_roon_vs_releases.outputs.run_build }}
+      #      - uses: actions/checkout@v4.1.1
+      #       
+      #      - name: Set up QEMU
+      #        uses: docker/setup-qemu-action@v3.0.0
+      #      
+      #      - name: Set up Docker Context for Buildx
+      #        id: buildx-context
+      #        run: |
+      #          docker context create builders
+      #      
+      #      - name: Set up Docker Buildx
+      #        uses: docker/setup-buildx-action@v3.1.0
+      #        with:
+      #          endpoint: builders
+      #
+      #      - name: Login to DockerHub
+      #        uses: docker/login-action@v3.0.0
+      #        with:
+      #          username: hassejohansen
+      #          password: ${{ secrets.DOCKER_HUB_PAT }}
+      #
+      #      - name: Login to ghcr.io
+      #        uses: docker/login-action@v3 
+      #        with:
+      #          registry: ghcr.io
+      #          username: ${{ github.repository_owner }}
+      #          password: ${{ secrets.GITHUB_TOKEN }}
+      #      
+      #      - name: Prep Docker Tags
+      #        id: docker_meta
+      #        uses: docker/metadata-action@v5.5.1
+      #        with:
+      #          images: "docker.io/${{ github.repository_owner }}/${{ env.IMAGE_NAME }}, ghcr.io/${{ github.repository_owner }}/${{ env.IMAGE_NAME }}"
+      #          tags: |
+      #            type=raw,value=${{ needs.check_upstream_roon_vs_releases.outputs.ROON_RELEASE }}
+      #            type=ref,event=branch
+      #            type=ref,event=pr
+      #            type=ref,event=tag
+      #            type=edge
+      #            type=sha,prefix=git-
+      #            
+      #
+      #      - name: Build and push Docker images
+      #        uses: docker/build-push-action@v5.1.0
+      #        with:
+      #          context: .
+      #          file: ./Dockerfile
+      #          platforms: linux/amd64
+      #          push: true
+      #          tags: ${{ steps.docker_meta.outputs.tags }}
+      #          labels: ${{ steps.docker_meta.outputs.labels }}
+      #      
+      #      - name: Image digest
+      #        run: echo ${{ steps.docker_build.outputs.digest }}
+      #
+      #  create-release:
+      #    needs: docker
+      #    runs-on: ubuntu-latest
+      #    steps:
+      #    - uses: actions/checkout@v4.1.1
+      #    - uses: ncipollo/release-action@v1.14.0
+      #      with:
+      #        allowUpdates: true
+      #        bodyFile: "release.md"
+      #        tag: ${{ needs.docker.outputs.RELEASE }}
+      #        token: ${{ secrets.GITHUB_TOKEN }}
