@@ -103,7 +103,7 @@ jobs:
         run: echo ${{ steps.docker_build.outputs.digest }}
 
   create-release:
-    needs: check_upstream_roon_vs_releases && docker
+    needs: [check_upstream_roon_vs_releases, docker]
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4.1.1
