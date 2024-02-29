@@ -19,6 +19,7 @@ jobs:
 
     outputs:
       run_build: ${{ steps.compare_versions.outputs.RUN_BUILD }}
+      ROON_RELEASE: ${{ steps.roon_release.outputs.ROON_RELEASE }}
 
     steps:
       - uses: actions/checkout@v4.1.1
@@ -80,6 +81,7 @@ jobs:
         with:
           images: "docker.io/${{ github.repository_owner }}/${{ env.IMAGE_NAME }}, ghcr.io/${{ github.repository_owner }}/${{ env.IMAGE_NAME }}"
           tags: |
+            type=raw,value=${{ needs.check_upstream_roon_vs_releases.outputs.ROON_RELEASE }}
             type=ref,event=branch
             type=ref,event=pr
             type=ref,event=tag
@@ -99,3 +101,15 @@ jobs:
       
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
+
+  create-release:
+    needs: check_upstream_roon_vs_releases && docker
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4.1.1
+    - uses: ncipollo/release-action@v1.14.0
+      with:
+        allowUpdates: true
+        bodyFile: "release.md"
+        tag: ${{ needs.check_upstream_roon_vs_releases.outputs.ROON_RELEASE }}
+        token: ${{ secrets.GITHUB_TOKEN }}
