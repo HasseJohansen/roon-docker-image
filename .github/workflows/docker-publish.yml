@@ -45,6 +45,8 @@ jobs:
     needs: check_upstream_roon_vs_releases
     if: ${{ needs.check_upstream_roon_vs_releases.outputs.run_build }}
     runs-on: ubuntu-latest
+    outputs:
+      RELEASE: ${{ needs.check_upstream_roon_vs_releases.outputs.ROON_RELEASE }}
 
     steps:
       - uses: actions/checkout@v4.1.1
@@ -103,7 +105,7 @@ jobs:
         run: echo ${{ steps.docker_build.outputs.digest }}
 
   create-release:
-    needs: [check_upstream_roon_vs_releases, docker]
+    needs: docker
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4.1.1
@@ -111,5 +113,5 @@ jobs:
       with:
         allowUpdates: true
         bodyFile: "release.md"
-        tag: ${{ needs.check_upstream_roon_vs_releases.outputs.ROON_RELEASE }}
+        tag: ${{ needs.docker.outputs.RELEASE }}
         token: ${{ secrets.GITHUB_TOKEN }}
