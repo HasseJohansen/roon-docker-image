@@ -47,7 +47,7 @@ jobs:
 
     steps:
       - name: We need to see the goddamn values
-        if: ${{ needs.check_upstream_roon_vs_releases.outputs.run_build == 'true' }}
+        if: ${{ needs.check_upstream_roon_vs_releases.outputs.run_build }}
         run: |
           echo "gylle"
           #      - uses: actions/checkout@v4.1.1
