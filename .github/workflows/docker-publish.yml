@@ -13,7 +13,27 @@ env:
   IMAGE_NAME: roon
 
 jobs:
+  check_upstream_roon_vs_releases:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4.1.1
+
+      - name: Check latest release on roon forum
+        run: |
+          echo "ROON_RELEASE=$(curl -s https://community.roonlabs.com/t/roon-2-0-current-production-versions/213416 | awk '/<td>Linux \/ RoonOS<\/td>/{ getline; a = gensub(/<td><code>production ([0-9][0-9][0-9][0-9]).*/, \"\\1\", \"g\", $1); print a }')" >> $GITHUB_OUTPUT
+
+      - name: Get latest release on github
+        run: |
+          echo "GITHUB_TAG=$(git describe --tags --abbrev=0)" >> $GITHUB_OUTPUT
+
+      - name: Compare versions
+        if: ${{ GITHUB_TAG == '' }} || ${{ GITHUB_TAG < ROON_RELEASE }}
+        run: |
+          echo "RUN_BUILD=true" >> $GITHUB_OUTPUT
+
   docker:
+    if: ${{ needs.check_upstream_roon_vs_releases.outputs.RUN_BUILD == 'true' }}
     runs-on: ubuntu-latest
 
     steps:
