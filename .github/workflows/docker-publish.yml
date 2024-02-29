@@ -42,7 +42,7 @@ jobs:
 
   docker:
     needs: check_upstream_roon_vs_releases
-    if: ${{ check_upstream_roon_vs_releases.outputs.run_build }}
+    if: ${{ needs.check_upstream_roon_vs_releases.outputs.run_build }}
     runs-on: ubuntu-latest
 
     steps:
