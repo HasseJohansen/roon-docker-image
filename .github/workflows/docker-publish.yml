@@ -48,7 +48,7 @@ jobs:
     steps:
       - name: We need to see the goddamn values
         run: |
-          echo ${{ needs.check_upstream_roon_vs_releases.run_build }}
+          echo ${{ needs.check_upstream_roon_vs_releases.outputs.run_build }}
           #      - uses: actions/checkout@v4.1.1
           #        
           #      - name: Set up QEMU
