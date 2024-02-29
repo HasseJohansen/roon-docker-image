@@ -23,6 +23,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4.1.1
+        with:
+          fetch-depth: 0
 
       - name: Check latest release on roon forum
         id: roon_release
