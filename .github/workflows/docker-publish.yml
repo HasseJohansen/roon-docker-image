@@ -40,8 +40,8 @@ jobs:
       - name: Compare versions
         id: compare_versions
         if: ${{ steps.github_release.outputs.GITHUB_TAG == '' }} || ${{ steps.github_release.outputs.GITHUB_TAG < steps.roon_release.outputs.ROON_RELEASE }}
-        run: |
-          echo "RUN_BUILD='true'" >> $GITHUB_OUTPUT
+          run: |
+            echo "RUN_BUILD='true'" >> $GITHUB_OUTPUT
 
   docker:
     needs: check_upstream_roon_vs_releases
