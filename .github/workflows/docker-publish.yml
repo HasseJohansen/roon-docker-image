@@ -33,7 +33,7 @@ jobs:
       - name: Get latest release on github
         id: github_release
         run: |
-          echo "GITHUB_TAG=$(git describe --tags --abbrev=0)" >> $GITHUB_OUTPUT
+          echo "GITHUB_TAG=$(git describe --tags `git rev-list --tags --max-count=1`)" >> $GITHUB_OUTPUT
 
       - name: Compare versions
         id: compare_versions
