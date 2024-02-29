@@ -2,7 +2,7 @@ FROM ubuntu@sha256:f9d633ff6640178c2d0525017174a688e2c1aef28f0a0130b26bd5554491f
 # Based on https://github.com/mikedickey/RoonServer
 
 # For GitHub container registry
-LABEL org.opencontainers.image.source https://github.com/jmmaloney4/roon-docker-image
+LABEL org.opencontainers.image.source https://github.com/HasseJohansen/roon-docker-image
 
 RUN apt-get update \
 	&& apt-get install -y ffmpeg curl bzip2 cifs-utils libasound2 gpg \
