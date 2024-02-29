@@ -17,6 +17,9 @@ jobs:
   check_upstream_roon_vs_releases:
     runs-on: ubuntu-latest
 
+    outputs:
+      run_build: ${{ steps.compare_versions.outputs.RUN_BUILD }}
+
     steps:
       - uses: actions/checkout@v4.1.1
 
@@ -35,9 +38,7 @@ jobs:
         id: compare_versions
         if: ${{ steps.github_release.outputs.GITHUB_TAG == '' }} || ${{ steps.github_release.outputs.GITHUB_TAG < steps.roon_release.outputs.ROON_RELEASE }}
         run: |
-          echo "RUN_BUILD=true" >> $GITHUB_OUTPUT
-    outputs:
-      run_build: ${{ steps.compare_versions.outputs.RUN_BUILD }}
+          echo "RUN_BUILD='true'" >> $GITHUB_OUTPUT
 
   docker:
     if: ${{ needs.check_upstream_roon_vs_releases.outputs.run_build == 'true' }}
