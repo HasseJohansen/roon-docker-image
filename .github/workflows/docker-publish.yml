@@ -31,9 +31,12 @@ jobs:
           echo "GITHUB_TAG=$(git describe --tags --abbrev=0)" >> $GITHUB_OUTPUT
 
       - name: Compare versions
+        id: compare_versions
         if: ${{ steps.github_release.outputs.GITHUB_TAG == '' }} || ${{ steps.github_release.outputs.GITHUB_TAG < steps.roon_release.outputs.ROON_RELEASE }}
         run: |
           echo "RUN_BUILD=true" >> $GITHUB_OUTPUT
+    outputs:
+      run_build: ${{ steps.compare_versions.outputs.RUN_BUILD }}
 
   docker:
     if: ${{ needs.check_upstream_roon_vs_releases.outputs.RUN_BUILD == 'true' }}
