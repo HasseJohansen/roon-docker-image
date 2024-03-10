@@ -42,14 +42,8 @@ jobs:
         run: |
           echo "RUN_BUILD=false" >> $GITHUB_OUTPUT
 
-      - name: Always run when not scheduled
-        id: not_scheduled
-        if: ${{ github.event_name != 'schedule' }}
-        run: |
-          echo "RUN_BUILD=true" >> $GITHUB_OUTPUT
-
   docker:
-    if: needs.check_upstream_roon_vs_releases.outputs.run_build != 'false'
+    if: needs.check_upstream_roon_vs_releases.outputs.run_build != 'false' || ${{ github.event_name != 'schedule' }}
     needs: check_upstream_roon_vs_releases
     runs-on: ubuntu-latest
     outputs:
