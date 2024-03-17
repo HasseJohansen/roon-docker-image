@@ -43,7 +43,7 @@ jobs:
           echo "RUN_BUILD=false" >> $GITHUB_OUTPUT
 
   docker:
-    if: needs.check_upstream_roon_vs_releases.outputs.run_build != 'false' || ${{ github.event_name != 'schedule' }}
+    if: needs.check_upstream_roon_vs_releases.outputs.run_build != 'false' || ${{ github.event_name == 'push' }}
     needs: check_upstream_roon_vs_releases
     runs-on: ubuntu-latest
     outputs:
