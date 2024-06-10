@@ -5,7 +5,7 @@ FROM ubuntu@sha256:f9d633ff6640178c2d0525017174a688e2c1aef28f0a0130b26bd5554491f
 LABEL org.opencontainers.image.source https://github.com/HasseJohansen/roon-docker-image
 
 RUN apt-get update \
-	&& apt-get install -y ffmpeg curl bzip2 cifs-utils libasound2 gpg tzdata \
+	&& apt-get install -y ffmpeg curl bzip2 cifs-utils libasound2t64 gpg tzdata \
 	&& apt-get -y clean && apt-get -y autoclean
 
 ENV ROON_DATAROOT=/var/roon/
