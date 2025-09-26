@@ -9,10 +9,10 @@ RUN apt-get update \
 	&& apt-get -y clean && apt-get -y autoclean
 
 ENV ROON_DATAROOT=/var/roon/
-ENV ROON_ID_DIR /var/roon/
+ENV ROON_ID_DIR=/var/roon/
 
 # tini https://github.com/krallin/tini
-ENV TINI_VERSION v0.19.0
+ENV TINI_VERSION=v0.19.0
 ADD https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini /tini
 ADD https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini.asc /tini.asc
 RUN gpg --batch --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 595E85A6B1B4779EA4DAAEC70B588DFF0527A9B7 \
@@ -21,8 +21,8 @@ RUN chmod +x /tini
 ENTRYPOINT ["/tini", "--"]
 
 # Location of Roon's latest Linux installer
-ENV ROON_INSTALLER roonserver-installer-linuxx64.sh
-ENV ROON_INSTALLER_URL http://download.roonlabs.com/builds/${ROON_INSTALLER}
+ENV ROON_INSTALLER=roonserver-installer-linuxx64.sh
+ENV ROON_INSTALLER_URL=http://download.roonlabs.com/builds/${ROON_INSTALLER}
 ENV MONO_LOG_LEVEL=message
 
 # Grab installer and script to run it
