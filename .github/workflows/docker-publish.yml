@@ -80,7 +80,7 @@ jobs:
       
       - name: Prep Docker Tags
         id: docker_meta
-        uses: docker/metadata-action@v5.8.0
+        uses: docker/metadata-action@v5.10.0
         with:
           images: "docker.io/${{ github.repository_owner }}/${{ env.IMAGE_NAME }}, ghcr.io/${{ github.repository_owner }}/${{ env.IMAGE_NAME }}"
           tags: |
