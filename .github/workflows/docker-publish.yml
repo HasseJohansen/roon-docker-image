@@ -47,7 +47,7 @@ jobs:
   docker:
     if: needs.check_upstream_roon_vs_releases.outputs.RUN_BUILD != 'false'
     needs: check_upstream_roon_vs_releases
-    runs-on: ubuntu-slim
+    runs-on: ubuntu-latest
     outputs:
       RELEASE: ${{ needs.check_upstream_roon_vs_releases.outputs.ROON_RELEASE }}
 
