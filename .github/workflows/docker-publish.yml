@@ -70,13 +70,13 @@ jobs:
           endpoint: builders
      
       - name: Login to DockerHub
-        uses: docker/login-action@v3.7.0
+        uses: docker/login-action@v4.2.0
         with:
           username: hassejohansen
           password: ${{ secrets.DOCKER_HUB_PAT }}
     
       - name: Login to ghcr.io
-        uses: docker/login-action@v3 
+        uses: docker/login-action@v4 
         with:
           registry: ghcr.io
           username: ${{ github.repository_owner }}
