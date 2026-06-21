@@ -22,7 +22,7 @@ jobs:
       ROON_RELEASE: ${{ steps.roon_release.outputs.ROON_RELEASE }}
 
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
 
@@ -54,7 +54,7 @@ jobs:
       RELEASE: ${{ needs.check_upstream_roon_vs_releases.outputs.ROON_RELEASE }}
 
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
        
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v4.1.0
@@ -113,7 +113,7 @@ jobs:
     needs: docker
     runs-on: ubuntu-slim
     steps:
-    - uses: actions/checkout@v6
+    - uses: actions/checkout@v7
     - uses: ncipollo/release-action@v1.21.0
       with:
         allowUpdates: true
