@@ -1,4 +1,4 @@
-FROM ubuntu@sha256:b7f48194d4d8b763a478a621cdc81c27be222ba2206ca3ca6bc42b49685f3d9e
+FROM ubuntu@sha256:513c074113a871b51a8d16ab445c88779d6452d937a164fb5cc479f32668a41d
 # Based on https://github.com/mikedickey/RoonServer
 
 # For GitHub container registry
